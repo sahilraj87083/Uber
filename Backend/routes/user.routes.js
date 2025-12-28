@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import {registerUser, loginUser, getCurrentUser, logoutUser} from '../controllers/user.controller.js'
 import {body} from 'express-validator'
-import {verifyJWT} from '../middlewares/auth.middleware.js'
+import {verifyUser} from '../middlewares/auth.middleware.js'
 
 
 const router = Router()
@@ -24,8 +24,8 @@ router.route('/login').post(
     loginUser)
 
 
-router.route('/profile').get(verifyJWT,getCurrentUser)
-router.route('/logout').post(verifyJWT, logoutUser)
+router.route('/profile').get(verifyUser,getCurrentUser)
+router.route('/logout').post(verifyUser, logoutUser)
 
 
 
