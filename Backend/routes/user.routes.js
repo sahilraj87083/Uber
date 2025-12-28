@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import {registerUser, loginUser, getCurrentUser} from '../controllers/user.controller.js'
+import {registerUser, loginUser, getCurrentUser, logoutUser} from '../controllers/user.controller.js'
 import {body} from 'express-validator'
 import {verifyJWT} from '../middlewares/auth.middleware.js'
 
@@ -25,6 +25,7 @@ router.route('/login').post(
 
 
 router.route('/profile').get(verifyJWT,getCurrentUser)
+router.route('/logout').post(verifyJWT, logoutUser)
 
 
 
