@@ -2,7 +2,6 @@ import express, { urlencoded } from 'express'
 import cors from 'cors'
 import { LIMIT } from './constants.js';
 import cookieParser from 'cookie-parser';
-import userRoute from './routes/user.routes.js'
 
 const app = express();
 app.use(cors(
@@ -31,6 +30,15 @@ app.get('/', (req, res) => {
     res.send('Hello world')
 })
 
+
+// import routes
+import userRoute from './routes/user.routes.js'
+
+
+
+// routes
 app.use("/api/v1/users", userRoute);
+
+
 
 export  {app};
