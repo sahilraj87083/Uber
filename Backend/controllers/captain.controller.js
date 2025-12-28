@@ -95,7 +95,18 @@ const loginCaptain = asyncHandler(async(req, res, next) => {
 })
 
 
+const getCurrentCaptain = asyncHandler(async(req, res, next) => {
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        req.captain,
+        "Captain fetched successfully"
+    ))
+})
+
 export {
     registerCaptain,
-    loginCaptain
+    loginCaptain,
+    getCurrentCaptain
 }

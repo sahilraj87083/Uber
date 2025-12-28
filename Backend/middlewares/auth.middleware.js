@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
 import jwt from 'jsonwebtoken'
+import { Captain } from "../models/captain.model.js";
 
 const verifyUser = asyncHandler(async(req,res,next) => {
     try {
@@ -26,4 +27,27 @@ const verifyUser = asyncHandler(async(req,res,next) => {
     }
 })
 
-export {verifyUser}
+const verifyCaptain = asyncHandler(async (req, res, next) => {
+    try {
+        const token = req.cookies?.accessToken || req.header('Authorization')?.replace("Bearer ", "");
+
+        if(!token){
+            throw new ApiError(401, "Unauthorized request")
+        }
+
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const captain = await Captain.findById(decodedToken?._id).select('-refreshToken')
+
+        if(!captain){
+            throw new ApiError(401, "Invalid Access Token")
+        }
+    
+        req.captain = captain
+        next()
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid access token")
+    }
+})
+
+
+export {verifyUser, verifyCaptain}

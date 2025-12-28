@@ -1,7 +1,7 @@
 import {body} from 'express-validator'
 import { Router } from "express";
-import { registerCaptain, loginCaptain } from '../controllers/captain.controller.js';
-
+import { registerCaptain, loginCaptain, getCurrentCaptain } from '../controllers/captain.controller.js';
+import { verifyCaptain } from '../middlewares/auth.middleware.js';
 const router = Router()
 
 router.route('/register').post(
@@ -24,5 +24,8 @@ router.route('/login').post(
     ],
     loginCaptain
 )
+
+
+router.route('/profile').get(verifyCaptain,getCurrentCaptain)
 
 export default router
