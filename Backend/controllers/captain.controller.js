@@ -2,7 +2,7 @@ import { Captain } from "../models/captain.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from '../utils/ApiResponse.js'
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { createCaptain } from "../services/captain.services.js";
+import { createCaptain , generateAccessAndRefereshTokens} from "../services/captain.services.js";
 import {validationResult} from 'express-validator'
 
 const registerCaptain = asyncHandler(async (req, res, next) => {
@@ -49,9 +49,53 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(201, "Captain created Successfully", createdCaptain))
 })
 
+const loginCaptain = asyncHandler(async(req, res, next) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        throw new ApiError(400,"Validation failed",  errors = errors.array())
+    }
 
+    const {email , password} = req.body
+
+    if(!email || !password){
+        throw new ApiError(400, "email and password is required");
+    }
+
+    const captain = await Captain.findOne({
+        $or : [{email}]
+    }).select('+password')
+
+    if(!captain){
+        throw new ApiError(404, "Captain does not exist")
+    }
+
+    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(captain._id)
+
+    const loggedInCaptain =  await Captain.findById(captain._id).select('-refreshToken')
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
+
+    return res
+    .status(200)
+    .cookie('accessToken', accessToken, options)
+    .cookie('refreshToken', refreshToken, options)
+    .json(
+        new ApiResponse(
+            200,
+            {
+                user : loggedInCaptain, accessToken, refreshToken
+            },
+            "User logged In Successfully"
+        )
+    )
+
+})
 
 
 export {
-    registerCaptain
+    registerCaptain,
+    loginCaptain
 }

@@ -40,6 +40,22 @@ const createCaptain = async (
     return captain
 }
 
+const generateAccessAndRefereshTokens = async (captainId) => {
+    try {
+        const captain = await Captain.findById(captainId);
+    
+        const accessToken = captain.generateAccessToken()
+        const refreshToken = captain.generateRefreshToken()
+    
+        captain.refreshToken = refreshToken
+        await captain.save({
+            validateBeforeSave : false
+        })
+    
+        return {accessToken, refreshToken};
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while generating referesh and access token")
+    }
+}
 
-
-export {createCaptain}
+export {createCaptain, generateAccessAndRefereshTokens}
