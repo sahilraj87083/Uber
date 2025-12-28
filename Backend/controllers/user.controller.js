@@ -1,9 +1,10 @@
 import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {validationResult} from 'express-validator'
-import { createUser } from "../services/user.services.js";
+import { createUser , generateAccessAndRefereshTokens} from "../services/user.services.js";
 import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from '../utils/ApiResponse.js'
+
 
 const registerUser = asyncHandler(async (req, res, next) => {
 
@@ -56,7 +57,59 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
 })
 
+const loginUser = asyncHandler(async(req, res, next) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        throw new ApiError(400,"Validation failed", errors.array() )
+    }
+
+    const { email, password} = req.body
+
+    if(!email || !password){
+        throw new ApiError(400, "email and password is required")
+    }
+
+
+    const user = await User.findOne({
+        $or : [{email}]
+    }).select('+password')
+
+    if(!user){
+        throw new ApiError(404, "User does not exist")
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password)
+
+    if(!isPasswordCorrect){
+        throw new ApiError(401, "Invalid email or password")
+    }
+
+    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+
+    const loggedInUser = await User.findById(user._id).select('-refreshToken')
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
+
+    return res
+    .status(200)
+    .cookie('accessToken', accessToken, options)
+    .cookie('refreshToken', refreshToken, options)
+    .json(
+        new ApiResponse(
+            200,
+            {
+                user : loggedInUser, accessToken, refreshToken
+            },
+            "User logged In Successfully"
+        )
+    )
+})
+
 
 export {
-    registerUser
+    registerUser,
+    loginUser
 }
