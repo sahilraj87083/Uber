@@ -8,12 +8,20 @@ import {app} from './app.js';
 import http from 'node:http'
 
 const port = process.env.PORT || 3000
-
-connectDB()
-
 const server = http.createServer(app)
 
-
-server.listen(port , () => {
-    console.log(`server is listening on port number ${port}`)
+connectDB()
+.then(() => {
+    server.listen(port , () => {
+        console.log(`server is listening on port number ${port}`)
+    })
 })
+.catch((error) => {
+    console.error("❌ MongoDB connection failed:", err);
+    process.exit(1);
+})
+
+
+
+
+
