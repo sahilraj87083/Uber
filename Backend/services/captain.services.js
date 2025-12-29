@@ -2,7 +2,7 @@ import { Captain } from "../models/captain.model.js";
 import { ApiError } from "../utils/ApiError.js";
 
 const createCaptain = async (
-    {firstName, lastName, email, password, color, plate, capacity, vehicleType, username, contact}
+    {firstName, lastName, email, password, color, plate, capacity, vehicleType, contact}
 ) => {
 
 
@@ -15,7 +15,6 @@ const createCaptain = async (
         color,
         plate,
         vehicleType,
-        username,
         contact,
     ];
 
@@ -33,7 +32,6 @@ const createCaptain = async (
         email,
         password,
         vehicle: { color, plate, capacity, vehicleType },
-        username,
         contact
     });
 

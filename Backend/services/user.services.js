@@ -4,9 +4,9 @@ import {ApiError} from '../utils/ApiError.js'
 // import { use } from "react";
 
 const createUser = async ({
-    firstName, lastName, email, password, username, contact
+    firstName, lastName, email, password, contact
 }) => {
-    if( [firstName,lastName, email, username, password, contact].some((field) => field?.trim() === "")){
+    if( [firstName,lastName, email, password, contact].some((field) => field?.trim() === "")){
         throw new ApiError(400, 'All fields are required')
     }
 
@@ -16,7 +16,6 @@ const createUser = async ({
                 firstName : firstName,
                 lastName : lastName
             },
-            username : username,
             email : email,
             password : password,
             contact : contact

@@ -12,14 +12,14 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
     }
 
 
-    const {fullName, email, username, password, vehicle, contact} = req.body
+    const {fullName, email, password, vehicle, contact} = req.body
 
-    if(!fullName || !email || !username || !password || !vehicle || !contact){
+    if(!fullName || !email || !password || !vehicle || !contact){
         throw new ApiError(400, "All fields are required")
     }
 
     const existedCaptain = await Captain.findOne({
-        $or : [{username}, {email}]
+        $or : [{email}]
     })
 
     if(existedCaptain){
@@ -34,7 +34,6 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
         plate : vehicle.plate, 
         capacity : vehicle.capacity, 
         vehicleType : vehicle.vehicleType, 
-        username :username, 
         contact : contact
     })
 

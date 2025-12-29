@@ -64,14 +64,6 @@ const captainSchema = new mongoose.Schema({
             type: Number,
         }
     },
-    username : {
-        type : String,
-            required : true,
-            unique : true,
-            lowercase : true,
-            trim : true,
-            index : true,
-    },
     contact: {
         type: String,
         required: true,

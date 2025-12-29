@@ -15,11 +15,11 @@ const registerUser = asyncHandler(async (req, res, next) => {
     // console.log(req.body)
 
 
-    const {fullName, email, password, username, contact} = req.body
+    const {fullName, email, password, contact} = req.body
 
     // check if user pre existes
     const existedUser = await User.findOne({
-        $or : [{email}, {username}]
+        $or : [{email}]
     })
 
     if(existedUser){
@@ -29,7 +29,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const user = await createUser({
         firstName : fullName.firstName,
         lastName : fullName.lastName,
-        username : username,
         email : email,
         password : password,
         contact : contact
