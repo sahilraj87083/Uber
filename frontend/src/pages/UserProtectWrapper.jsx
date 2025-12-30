@@ -16,14 +16,14 @@ const UserProtectedWrapper = ({children}) => {
             return 
         }
 
-        axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/profile` , {
+         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/profile` , {
             headers : {
                 Authorization: `Bearer ${authToken}`,
             },
             withCredentials : true      // for refresh token cookie
         })
         .then((res) => {
-            setUser(res.data);
+            setUser(res.data.data.user);
             setIsLoading(false);
         })
         .catch((err) => {
