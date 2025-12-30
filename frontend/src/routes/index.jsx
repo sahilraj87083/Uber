@@ -4,14 +4,15 @@ import { createBrowserRouter,
   
 import App from '../App'
 
-import { publicRoutes } from './publicRoutes/public.routes'
-// import { userRoutes } from './user.routes'
-// import { captainRoutes } from './captain.routes'
+import { publicRoutes } from './publicRoutes/Public.routes'
+import { userProtectedRoutes } from './userProtectedRoutes/UserProtected.routes'
+// import { captainRoutes } from './'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       {publicRoutes}
+      {userProtectedRoutes}
       {/* {userRoutes}
       {captainRoutes} */}
     </Route>
