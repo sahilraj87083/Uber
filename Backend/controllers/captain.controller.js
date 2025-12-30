@@ -43,9 +43,28 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
         throw new ApiError(500, "Something went wrong while registering the Captain")
     }
 
+    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(createdCaptain._id)
+
+    const loggedInCaptain = await Captain.findById(createdCaptain._id).select('-refreshToken')
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
     return res
-    .status(201)
-    .json(new ApiResponse(201, "Captain created Successfully", createdCaptain))
+        .status(200)
+        .cookie('accessToken', accessToken, options)
+        .cookie('refreshToken', refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                "Captain created Successfully",
+                {
+                    captain : loggedInCaptain, accessToken
+                }
+            
+            )
+        )
 })
 
 const loginCaptain = asyncHandler(async(req, res, next) => {
@@ -84,9 +103,9 @@ const loginCaptain = asyncHandler(async(req, res, next) => {
     .json(
         new ApiResponse(
             200,
-            "User logged In Successfully",
+            "Captain logged In Successfully",
             {
-                user : loggedInCaptain, accessToken, refreshToken
+                captain : loggedInCaptain, accessToken
             }
             
         )
@@ -101,7 +120,9 @@ const getCurrentCaptain = asyncHandler(async(req, res, next) => {
     .json(new ApiResponse(
         200,
         "Captain fetched successfully",
-        req.captain,
+        {
+            captain : req.captain
+        },
         
     ))
 })
