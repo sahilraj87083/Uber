@@ -6,7 +6,7 @@ function Start() {
                 <img className='w-16 ml-8 my-4' src="https://www.edigitalagency.com.au/wp-content/uploads/new-Uber-logo-white-png-large-size.png" alt="" />
                 <div className='bg-white pb-8 py-4 px-4'>
                     <h2 className='text-[30px] font-semibold'>Get Started With Uber</h2>
-                    <Link to='/user-login' className='bg-black flex items-center justify-center w-full text-white py-3 rounded-lg mt-5'>Continue</Link>
+                    <Link to='/user/login' className='bg-black flex items-center justify-center w-full text-white py-3 rounded-lg mt-5'>Continue</Link>
                 </div>
             </div>
         </div>

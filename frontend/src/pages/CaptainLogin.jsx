@@ -65,14 +65,14 @@ function CaptainLogin() {
 
         <p className="text-center mt-4">
           Join a fleet?{" "}
-          <Link to="/captain-signup" className="text-blue-600">
+          <Link to="/captain/signup" className="text-blue-600">
             Register as a Captain
           </Link>
         </p>
       </div>
 
       <Link
-        to="/user-login"
+        to="/user/login"
         className="bg-[#d5622d] flex items-center justify-center text-white font-semibold rounded-lg px-4 py-2 w-full text-lg"
       >
         Sign in as User
