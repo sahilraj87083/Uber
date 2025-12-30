@@ -84,10 +84,11 @@ const loginCaptain = asyncHandler(async(req, res, next) => {
     .json(
         new ApiResponse(
             200,
+            "User logged In Successfully",
             {
                 user : loggedInCaptain, accessToken, refreshToken
-            },
-            "User logged In Successfully"
+            }
+            
         )
     )
 
@@ -99,8 +100,9 @@ const getCurrentCaptain = asyncHandler(async(req, res, next) => {
     .status(200)
     .json(new ApiResponse(
         200,
+        "Captain fetched successfully",
         req.captain,
-        "Captain fetched successfully"
+        
     ))
 })
 
@@ -126,7 +128,7 @@ const logoutCaptain = asyncHandler(async(req, res, next) => {
     .status(200)
     .clearCookie("accessToken", options)
     .clearCookie('refreshToken', options)
-    .json(new ApiResponse(200, {}, "Captain logged Out"))
+    .json(new ApiResponse(200,"Captain logged Out", {}))
 })
 
 export {
