@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import Input from "../components/Input";
 import Select from "../components/Select";
-
-
+import axios from 'axios'
+import {useCaptainContext} from '../contexts/CaptainContext'
 
 
 function captainSignup() {
@@ -18,7 +18,8 @@ function captainSignup() {
     const [vehicleType, setVehicleType] = useState('')
 
     const [userData, setuserData] = useState({})
-
+    const navigate = useNavigate()
+    const {captain, setCaptain, authToken, setAuthToken} = useCaptainContext()
     
     const firstNameRef = useRef(null)
     const lastNameRef = useRef(null)
@@ -32,9 +33,9 @@ function captainSignup() {
 
 
 
-    const submitHandler = (e) => {
+    const submitHandler = async(e) => {
         e.preventDefault();
-        const userData = {
+        const CaptainData = {
             fullName: {
                 firstName,
                 lastName,
@@ -42,15 +43,28 @@ function captainSignup() {
             email,
             password,
             contact,
-            vehicleInfo : {
-                vehicleColor,
-                vehicleCapacity,
-                vehiclePlate,
-                vehicleType
+            vehicle : {
+                color : vehicleColor,
+                capacity: Number(vehicleCapacity),
+                plate: vehiclePlate,
+                vehicleType: vehicleType
             }
         };
 
         // TODO: send captainData to backend
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/captain/register` , CaptainData,
+            {
+                withCredentials : true
+            }
+        )
+        if(response.status == 200){
+            const CaptainData = response.data.data
+            console.log(CaptainData);
+            setCaptain(CaptainData.captain)
+            setAuthToken(CaptainData.accessToken)
+            navigate('/captain-home')
+        }
+
         // console.log(userData);
 
         setFirstName('')

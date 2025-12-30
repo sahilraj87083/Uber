@@ -4,15 +4,15 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import {router} from './routes'
 import {UserContextProvider} from './contexts/UserContext'
-
+import { CaptainContextProvider } from './contexts/CaptainContext'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    
-    <UserContextProvider>
-      <RouterProvider router={router} />
-    </UserContextProvider>
-    
+      <CaptainContextProvider>
+          <UserContextProvider>
+              <RouterProvider router={router} />
+          </UserContextProvider>
+      </CaptainContextProvider>
   </StrictMode>
 )
