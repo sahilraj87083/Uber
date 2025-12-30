@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import axios from 'axios'
+import {useUserContext} from '../contexts/UserContext'
 
 function UserSignup() {
     const [firstName, setFirstName] = useState("");
@@ -16,7 +17,10 @@ function UserSignup() {
     const contactRef = useRef(null)
     const passwordRef = useRef(null);
 
-    const submitHandler = (e) => {
+    const {user, setUser, authToken, setAuthToken } = useUserContext()
+    const navigate = useNavigate()
+
+    const submitHandler = async (e) => {
     e.preventDefault();
 
     const newUser = {
@@ -30,6 +34,22 @@ function UserSignup() {
     };
 
     // TODO: send userData to backend
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/register`, 
+      newUser,
+      {
+        withCredentials : true
+      }
+    )
+
+    if(response.status === 200){
+      const userData = response.data.data;
+      setUser(userData.user);
+      setAuthToken(userData.accessToken);
+
+      // console.log(response.data)
+      // console.log(userData.user)
+      navigate('/home')
+    }
     // console.log(userData);
 
     setFirstName("");
@@ -123,7 +143,7 @@ function UserSignup() {
         {/* Sign in */}
         <p className="text-center text-sm mt-4">
           Already have an account?{" "}
-          <Link to="/user-login" className="text-blue-600 font-medium">
+          <Link to="/user/login" className="text-blue-600 font-medium">
             Sign in
           </Link>
         </p>
