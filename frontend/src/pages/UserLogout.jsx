@@ -16,7 +16,7 @@ export const UserLogout = () => {
                 {
                     headers : {
                         Authorization: `Bearer ${authToken}`
-                    }
+                    },
                 },
                 {
                     withCredentials : true // ✅ send refresh token cookie
@@ -24,7 +24,7 @@ export const UserLogout = () => {
             )
         }
         catch (error) {
-            console.error("Logout error:", error);
+            console.error("Error while logging out user : ", error);
         }
         finally {
             // ✅ clear frontend auth state no matter what
