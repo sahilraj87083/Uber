@@ -5,16 +5,24 @@ import axios from "axios";
 
 const UserProtectedWrapper = ({children}) => {
 
-    const {user, setUser, authToken, setAuthToken } = useUserContext()
+    const {user, setUser, authToken, setAuthToken, isAuthReady } = useUserContext()
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate()
 
     useEffect(() => {
-        // no access token → not logged in
+
+        // ⛔ wait until auth bootstrap finishes
+        if (!isAuthReady) return;
+
+
+        // no access token after bootstrap → not logged in
         if(!authToken){
+            setIsLoading(false);
             navigate('/user/login')
-            return 
+            return;
         }
+
+        //  token exists → validate
 
          axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/users/profile` , {
             headers : {
@@ -33,7 +41,12 @@ const UserProtectedWrapper = ({children}) => {
             navigate("/user/login");
         })
     }
-    , [authToken, navigate, setUser, setAuthToken]);
+    , [authToken, navigate, setUser,isAuthReady, setAuthToken]);
+
+    //  block rendering until auth is ready
+    if (!isAuthReady) {
+        return <div>Loading...</div>;
+    }
 
     if (isLoading) {
         return <div>Loading...</div>;

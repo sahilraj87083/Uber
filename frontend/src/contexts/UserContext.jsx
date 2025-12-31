@@ -21,9 +21,10 @@ export const UserContextProvider = ({ children }) => {
         },
   });
   const [authToken, setAuthToken] = useState(null); // for access token
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   return (
-    <UserContext.Provider value={{ user, setUser, authToken, setAuthToken}}>
+    <UserContext.Provider value={{ user, setUser, authToken, setAuthToken, isAuthReady, setIsAuthReady}}>
       {children}
     </UserContext.Provider>
   );
