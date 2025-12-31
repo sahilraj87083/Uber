@@ -205,7 +205,7 @@ function captainSignup() {
                         options={[
                             { label: "Car", value: "car" },
                             { label: "Auto", value: "auto" },
-                            { label: "Moto", value: "moto" },
+                            { label: "Motorcycle", value: "motorcycle" },
                         ]}
                         />
                     </div>
