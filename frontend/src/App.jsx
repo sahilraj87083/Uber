@@ -1,36 +1,35 @@
 import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
+import {bootstrapAuth} from './utils/bootstrapAuth'
 import { Outlet } from 'react-router-dom'
 import { useUserContext } from './contexts/UserContext'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { useCaptainContext } from './contexts/CaptainContext'
 
 function App() {
-  const {setUser, setAuthToken, setIsAuthReady} = useUserContext()
+  const {setUser, setAuthToken : setUserAuthToken, setIsAuthReady : setUserIsAuthReady} = useUserContext()
+  const {setCaptain, setAuthToken: setCaptainAuthToken,  setIsAuthReady : setCaptainIsAuthReady} = useCaptainContext()
 
   useEffect( () => {
-    const restoreSession = async () => {
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/users/refresh`, {},
-          {
-            withCredentials : true
-          }
-        )
-
-        setAuthToken(response.data.data.accessToken);
-        setUser(response.data.data.user);
-      } catch (error) {
-        // not logged in → do nothing
-        setAuthToken(null);
-        setUser(null);
-      } finally{
-        setIsAuthReady(true)
+    bootstrapAuth(
+      {
+        refreshUrl : `${import.meta.env.VITE_BASE_URL}/api/v1/users/refresh`,
+        setEntity : setUser,
+        setToken : setUserAuthToken,
+        setReady : setUserIsAuthReady
       }
-    }
+    )
+  }, [])
 
-    restoreSession()
+  useEffect (() => {
+    bootstrapAuth(
+      {
+        refreshUrl : `${import.meta.env.VITE_BASE_URL}/api/v1/captain/refresh`,
+        setEntity : setCaptain,
+        setToken : setCaptainAuthToken,
+        setReady : setCaptainIsAuthReady
+      }
+    )
   }, [])
 
   return (

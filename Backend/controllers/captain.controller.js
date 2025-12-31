@@ -4,10 +4,12 @@ import {ApiResponse} from '../utils/ApiResponse.js'
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { createCaptain , generateAccessAndRefereshTokens} from "../services/captain.services.js";
 import {validationResult} from 'express-validator'
+import jwt from 'jsonwebtoken'
 
 const registerCaptain = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
+        console.log(errors.array())
         throw new ApiError(400,"Validation failed", errors.array() )
     }
 
@@ -152,9 +154,62 @@ const logoutCaptain = asyncHandler(async(req, res, next) => {
     .json(new ApiResponse(200,"Captain logged Out", {}))
 })
 
+
+const refreshAccessToken = asyncHandler (async (req, res) => {
+    const incomingRefreshToken = req.cookies?.refreshToken
+
+    if(!incomingRefreshToken){
+        return res
+        .status(401)
+        .json( new ApiResponse (401, "No refresh token" ))
+    }
+    try {
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+        const captain = await Captain.findById(decodedToken?._id).select('+refreshToken');
+
+        if(!captain){
+            throw new ApiError(401, "Invalid refresh token")
+        }
+
+        if(captain?.refreshToken !== incomingRefreshToken){
+            throw new ApiError(401, "Refresh token is expired or used");
+        }
+
+        const options = {
+            httpOnly : true,
+            secure : true
+        }
+
+        const newAccessToken = captain.generateAccessToken()
+
+        const captainToReturn = await Captain.findById(captain?._id);
+        
+        return res
+        .status(200)
+        .cookie('accessToken', newAccessToken, options)
+        .json(
+            new ApiResponse(200, "Access token refreshed", { captain : captainToReturn, accessToken : newAccessToken})
+        )
+        
+    } catch (error) {
+        // expired / invalid token → treat as logged out
+        return res
+        .status(401)
+        .json( new ApiResponse (401, "Invalid refresh token" ))
+
+        // return res.status(401).json({
+        //     success: false,
+        //     message: "Invalid refresh token",
+        // });
+    }
+
+})
+
 export {
     registerCaptain,
     loginCaptain,
     getCurrentCaptain,
-    logoutCaptain
+    logoutCaptain,
+    refreshAccessToken
 }

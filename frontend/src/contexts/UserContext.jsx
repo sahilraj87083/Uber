@@ -21,7 +21,7 @@ export const UserContextProvider = ({ children }) => {
         },
   });
   const [authToken, setAuthToken] = useState(null); // for access token
-  const [isAuthReady, setIsAuthReady] = useState(false);
+  const [isAuthReady, setIsAuthReady] = useState(false); // for tracking if auth bootstrap is done so that protected routes can wait for refresh token check
 
   return (
     <UserContext.Provider value={{ user, setUser, authToken, setAuthToken, isAuthReady, setIsAuthReady}}>
