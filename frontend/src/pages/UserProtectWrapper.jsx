@@ -41,7 +41,7 @@ const UserProtectedWrapper = ({children}) => {
             navigate("/user/login");
         })
     }
-    , [authToken, navigate, setUser,isAuthReady, setAuthToken]);
+    , [authToken, setUser,isAuthReady, setAuthToken]);
 
     //  block rendering until auth is ready
     if (!isAuthReady) {

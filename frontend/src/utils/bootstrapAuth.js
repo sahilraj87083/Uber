@@ -13,6 +13,10 @@ export const bootstrapAuth = async ({
         setEntity(response.data.data.user || response.data.data.captain)
     } catch (error) {
         // not logged in → do nothing
+        // ✅ EXPECTED when not logged in
+        if (error.response?.status !== 401) {
+            console.error("Unexpected auth error:", error);
+        }
         setToken(null)
         setEntity(null)
     }finally {
