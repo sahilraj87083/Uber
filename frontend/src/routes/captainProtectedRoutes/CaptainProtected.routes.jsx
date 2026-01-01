@@ -3,6 +3,7 @@ import UserLogout from '../../pages/UserLogout'
 import { Route } from 'react-router-dom'
 import {CaptainProtectedWrapper} from '../../pages/CaptainProtectWrapper'
 import {CaptainLogout} from '../../pages/CaptainLogout'
+import CaptainRiding from '../../pages/CaptainRiding'
 
 export const captainProtectedRoutes = (
     <>
@@ -19,6 +20,15 @@ export const captainProtectedRoutes = (
                     <CaptainLogout/>
                 </CaptainProtectedWrapper>
             }
+        />
+
+        <Route path='/captain-riding'
+            element = {
+                <CaptainProtectedWrapper>
+                    <CaptainRiding/>
+                </CaptainProtectedWrapper>
+            }
+        
         />
         
     </>
