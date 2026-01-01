@@ -1,9 +1,7 @@
 import CaptainHome from '../../pages/CaptainHome'
-import UserLogout from '../../pages/UserLogout'
 import { Route } from 'react-router-dom'
-import {CaptainProtectedWrapper} from '../../pages/CaptainProtectWrapper'
-import {CaptainLogout} from '../../pages/CaptainLogout'
-import CaptainRiding from '../../pages/CaptainRiding'
+import {CaptainProtectedWrapper, CaptainLogout, CaptainRiding} from '../../pages'
+
 
 export const captainProtectedRoutes = (
     <>

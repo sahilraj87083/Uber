@@ -56,4 +56,4 @@ const CaptainProtectedWrapper = ({children}) => {
     )
 }
 
-export {CaptainProtectedWrapper}
+export default CaptainProtectedWrapper;

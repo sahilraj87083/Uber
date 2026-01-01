@@ -60,4 +60,4 @@ const UserProtectedWrapper = ({children}) => {
 }
 
 
-export  {UserProtectedWrapper};
+export default UserProtectedWrapper;
