@@ -42,11 +42,12 @@ app.get('/', (req, res) => {
 // import routes
 import userRoute from './routes/user.routes.js'
 import captainRoute from './routes/captain.routes.js'
-
+import mapsRoutes from './routes/map.routes.js'
 
 // routes
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/captain", captainRoute)
+app.use('/api/v1/maps', mapsRoutes)
 
 
 
