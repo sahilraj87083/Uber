@@ -19,8 +19,8 @@ const LookingForDriver = (props) => {
                             <h3 className='text-base font-medium'>Pickup</h3>
                         </div>
                         <div>
-                            <h3 className='text-lg font-medium'>562/11-A</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>East Hall City, Noida</p>
+                            {/* <h3 className='text-lg font-medium'>562/11-A</h3> */}
+                            <p className='text-sm -mt-1 text-gray-600'>{props.pickup}</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-5 p-3 border-b-2'>
@@ -29,8 +29,8 @@ const LookingForDriver = (props) => {
                             <h3 className='text-base font-medium'>Drop</h3>
                         </div>
                         <div>
-                            <h3 className='text-lg font-medium'>562/11-A</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>West Hall City, Noida</p>
+                            {/* <h3 className='text-lg font-medium'>562/11-A</h3> */}
+                            <p className='text-sm -mt-1 text-gray-600'>{props.destination}</p>
                         </div>
 
                     </div>
@@ -39,9 +39,9 @@ const LookingForDriver = (props) => {
                             <i className="ri-currency-line"></i>
                             <h3 className='text-base font-medium'>Fare</h3>
                         </div>
-                        <div>
-                            <h3 className='text-lg font-medium '>Cash</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>173.5</p>
+                        <div className="flex gap-10 items-center w-full justify-center">
+                            <p className='text-lg font-bold text-gray-600'>Cash</p>
+                            <h3 className='text-lg font-bold mr-5'>₹ {props.fare}</h3>
                         </div>
 
                     </div>
