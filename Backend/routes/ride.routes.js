@@ -1,12 +1,13 @@
 import express from 'express'
 import {body, query} from 'express-validator'
 import { Router } from 'express'
-import {createRide, getFare} from '../controllers/ride.controller.js'
-import { verifyUser } from '../middlewares/auth.middleware.js'
+import {createRide, getFare, confirmRide, startRide, endRide} from '../controllers/ride.controller.js'
+import { verifyCaptain, verifyUser } from '../middlewares/auth.middleware.js'
 
 const router  = Router()
 
-router.route('/create').post(verifyUser,
+router.route('/create').post(
+    verifyUser,
     body('pickup').isString().isLength({ min: 3 }).withMessage('Invalid pickup address'),
     body('destination').isString().isLength({ min: 3 }).withMessage('Invalid destination address'),
     body('vehicleType').isString().isIn([ 'auto', 'car', 'moto' ]).withMessage('Invalid vehicle type'),
@@ -21,5 +22,24 @@ router.route('/get-fare').get(
     getFare
 )
 
+router.route('/confirm-ride').post(
+    verifyCaptain,
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    confirmRide
+)
+
+router.route('/start-ride').get(
+    verifyCaptain,
+    query('rideId').isMongoId().withMessage('Invalid ride id'),
+    query('otp').isString().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+    startRide
+)
+
+
+router.route('/end-ride').post(
+    verifyCaptain,
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    endRide
+)
 
 export default router
