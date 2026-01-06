@@ -1,6 +1,3 @@
-(# Frontend README)
-
-This folder contains the frontend application (Vite + React) for the Uber-like project. The app provides the user and captain UI, connects to the backend via REST and to the realtime server via Socket.IO.
 
 ## Quick Start
 
@@ -94,3 +91,40 @@ How to get a test access token
 
 Contributing
 - Follow the existing coding style (React + JSX). Keep components small and reuse `contexts` for cross-cutting state.
+
+
+# captain Home Page
+
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/89410a96-4e79-4409-92a1-d78cca69ea32" />
+
+# user Home Page
+
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/8e578efa-329f-4faa-94bf-115d959c4c3c" />
+
+# Dynamic Location suggestion
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/553e5e6e-dca3-40b9-960a-ca5e8827d2aa" />
+
+# choose vehicle 
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/c8fd56aa-2daf-4389-aff3-b690ddfdd53f" />
+
+# confirm ride 
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/54a1a53d-fbfa-49e8-90ad-2b733298fc50" />
+
+# Looking for driver 
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/c2f4298f-97e6-4f8c-969a-2eb6de028891" />
+
+# New Ride popup on captain page
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/22cbd7f6-9837-4194-84b3-b408fb998108" />
+
+# otp verification on user and captain page
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/2b0e5ec0-d19a-4a83-8a5e-84d2ae95c5af" />
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/f6a5a774-239d-426c-ba99-4e711fb9e1f2" />
+
+# user riding page 
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/057b5efa-ab01-49be-9bf7-0f9f6d274f22" />
+
+# Captain riding page
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/94e1a2ce-b9c7-44f7-9f45-f3e7e90d0f34" />
+
+# captain finsih ride 
+<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/8215fae5-373d-48eb-98c2-9ebfbb77c74d" />
