@@ -11,19 +11,6 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    // 👤 USER SIDE
-    if (!location.pathname.startsWith("/captain")) {
-      bootstrapAuth({
-        refreshUrl: `${import.meta.env.VITE_BASE_URL}/api/v1/users/refresh`,
-        setEntity: setUser,
-        setToken: setUserAuthToken,
-        setReady: setUserIsAuthReady,
-      });
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    // 🚗 CAPTAIN SIDE
     if (location.pathname.startsWith("/captain")) {
       bootstrapAuth({
         refreshUrl: `${import.meta.env.VITE_BASE_URL}/api/v1/captain/refresh`,
@@ -31,8 +18,15 @@ function App() {
         setToken: setCaptainAuthToken,
         setReady: setCaptainIsAuthReady,
       });
+    } else {
+      bootstrapAuth({
+        refreshUrl: `${import.meta.env.VITE_BASE_URL}/api/v1/users/refresh`,
+        setEntity: setUser,
+        setToken: setUserAuthToken,
+        setReady: setUserIsAuthReady,
+      });
     }
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div>

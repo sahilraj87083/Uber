@@ -1,6 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useSocketContext } from "../contexts/SocketContext.jsx"
 
 const Riding = () => {
+
+    const location = useLocation()
+    const {ride} = location.state || {}
+    const navigate = useNavigate()
+
+    const {socket} = useSocketContext()
+
+    socket.on('ride-ended' , () => {
+        navigate('/home')
+    })
+
     return (
         <div className='h-screen'>
             <Link to={'/home'} className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
@@ -15,10 +27,9 @@ const Riding = () => {
                 <div className='flex items-center justify-between'>
                     <img className="h-20" src="https://cn-geo1.uber.com/image-proc/crop/resizecrop/udam/format=auto/width=552/height=368/srcb64=aHR0cHM6Ly90Yi1zdGF0aWMudWJlci5jb20vcHJvZC91ZGFtLWFzc2V0cy82NDkzYzI1NS04N2M4LTRlMmUtOTQyOS1jZjcwOWJmMWI4MzgucG5n" alt="" />
                     <div className='text-right'>
-                        <h2 className='text-lg font-medium capitalize'>Rahul</h2>
-                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>BR07 90 2081</h4>
-                        <p className='text-sm text-gray-600'>Maruti Suzuki Alto</p>
-                        <h1 className='text-lg font-semibold'>   </h1>
+                        <h2 className='text-lg font-medium capitalize'>{ride?.captain.fullName.firstName + " " + ride?.captain.fullName.lastName}</h2>
+                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
+                        <p className='text-sm text-gray-600'>{ride?.captain.vehicle.color + " " + ride?.captain.vehicle.vehicleType }</p>
                     </div>
                 </div>
 
@@ -30,8 +41,8 @@ const Riding = () => {
                                 <h3 className='text-base font-medium'>Drop</h3>
                             </div>
                             <div>
-                                <h3 className='text-lg font-medium'>562/11-A</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>West Hall City, Noida</p>
+                                {/* <h3 className='text-lg font-medium'>562/11-A</h3> */}
+                                <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
                             </div>
 
                         </div>
@@ -40,9 +51,10 @@ const Riding = () => {
                                 <i className="ri-currency-line"></i>
                                 <h3 className='text-base font-medium'>Fare</h3>
                             </div>
-                            <div>
-                                <h3 className='text-lg font-medium '>Cash</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>173.5</p>
+
+                            <div className="flex gap-10 items-center w-full justify-center">
+                                <p className='text-lg font-bold text-gray-600'>Cash</p>
+                                <h3 className='text-lg font-bold mr-5'>₹ {ride?.fare}</h3>
                             </div>
                         </div>
                     </div>

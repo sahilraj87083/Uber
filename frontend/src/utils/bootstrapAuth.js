@@ -15,7 +15,7 @@ export const bootstrapAuth = async ({
         // not logged in → do nothing
         // ✅ EXPECTED when not logged in
         if (error.response?.status !== 401) {
-            console.error("Unexpected auth error:", error);
+            console.log("Unexpected auth error:", error);
         }
         setToken(null)
         setEntity(null)

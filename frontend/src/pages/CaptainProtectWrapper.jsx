@@ -17,6 +17,7 @@ const CaptainProtectedWrapper = ({children}) => {
         if(!authToken){
             setIsLoading(false)
             navigate('/captain/login')
+            return;
         }
 
         axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/captain/profile`,
@@ -32,14 +33,14 @@ const CaptainProtectedWrapper = ({children}) => {
             setIsLoading(false);
         })
         .catch((err) => {
-            console.error(err);
+            console.log(err);
 
             setAuthToken(null);
             navigate("/captain/login");
         })
 
 
-    }, [setCaptain, setAuthToken,captain, authToken, isAuthReady])
+    }, [setCaptain, setAuthToken, authToken, isAuthReady])
 
     if (!isAuthReady) {
         return <div>Loading...</div>;

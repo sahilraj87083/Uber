@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link , useLocation} from "react-router-dom"
 import FinishRide from '../components/FinishRide'
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';
@@ -9,6 +9,10 @@ const CaptainRiding = () => {
 
     const finishRidePanelRef = useRef(null)
     const [finshRidePanel, setFinishRidePanel] = useState(false)
+
+    const location = useLocation()
+    const ride = location.state?.ride || {}
+    // console.log(ride)
 
     // for ridePopupPanel 
     useGSAP(function(){
@@ -57,7 +61,9 @@ const CaptainRiding = () => {
 
 
             <div ref={finishRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
-                <FinishRide setFinishRidePanel={setFinishRidePanel} />
+                <FinishRide 
+                ride = {ride}
+                setFinishRidePanel={setFinishRidePanel} />
             </div>
 
         </div>

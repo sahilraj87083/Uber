@@ -59,7 +59,7 @@ function captainSignup() {
         )
         if(response.status == 200){
             const CaptainData = response.data.data
-            console.log(CaptainData);
+            // console.log(CaptainData);
             setCaptain(CaptainData.captain)
             setAuthToken(CaptainData.accessToken)
             navigate('/captain-home')

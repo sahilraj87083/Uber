@@ -1,6 +1,6 @@
 import Input from '../components/Input'
 import 'remixicon/fonts/remixicon.css'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import LocationSearchPanel from '../components/LocationSearchPanel';
@@ -10,6 +10,8 @@ import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
 import axios from 'axios'
 import {useUserContext} from '../contexts/UserContext.jsx'
+import { useSocketContext } from '../contexts/SocketContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const  Home = () => {
     const [ pickup, setPickup ] = useState('')
@@ -37,11 +39,47 @@ const  Home = () => {
     const [activeField, setActiveField] = useState(null)
 
     const {user, setUser, authToken, setAuthToken, isAuthReady } = useUserContext()
+    const {socket} = useSocketContext()
 
     const [fare, setFare] = useState({})
     const [vehicleType, setVehicleType] = useState(null)
-    
 
+    const [ride, setRide] = useState(null)
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        socket.emit('join', {userId : user._id , userType : 'user'})
+    }, [user])
+
+    socket.on('ride-confirmed' , ride => {
+        // console.log('listening')
+        // console.log(ride)
+        setVehicleFound(false)
+        setWaitingForDriver(true)
+        setRide(ride)
+        
+    })
+
+    socket.on('ride-started' , ride => {
+        // console.log(ride);
+        setWaitingForDriver(false);
+        navigate('/riding' , {state : {ride}})
+    })
+
+    const createRide = async () => {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/ride/create`,
+            {
+                pickup,
+                destination,
+                vehicleType
+            },
+            {
+                headers : {
+                    Authorization : `Bearer ${authToken}`
+                }
+            }
+        )
+    }
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -267,6 +305,7 @@ const  Home = () => {
             </div>
             <div ref={confirmRidePanelRef} className='bg-white w-full fixed z-10 translate-y-full bottom-0 px-3 py-10 pt-12'>
                 <ConfirmRide 
+                createRide = {createRide}
                 pickup = {pickup}
                 fare = {fare[vehicleType]}
                 destination = {destination}
@@ -278,6 +317,8 @@ const  Home = () => {
             <div ref={vehicleFoundRef} className='bg-white w-full fixed z-10 translate-y-full bottom-0 px-3 py-10 pt-12'>
                 <LookingForDriver 
                 pickup = {pickup}
+                setDestination = {setDestination}
+                setPickup = {setPickup}
                 destination = {destination}
                 fare = {fare[vehicleType]}
                 setVehicleFound = {setVehicleFound}/>
@@ -285,6 +326,8 @@ const  Home = () => {
 
             <div ref={waitingForDriverRef} className='bg-white w-full fixed z-10  bottom-0 px-3 py-10 pt-12'>
                 <WaitingForDriver  
+                ride = {ride}
+                setVehicleFound = {setVehicleFound}
                 setWaitingForDriver = {setWaitingForDriver} />
             </div>
             

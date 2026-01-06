@@ -1,10 +1,13 @@
+import {useCaptainContext} from '../contexts/CaptainContext.jsx'
+
 const  CaptainDetails = () => {
+    const {captain} = useCaptainContext()
     return ( 
         <div>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center justify-start gap-3'>
                     <img className="className='h-16 w-20 rounded-full object-cover'" src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80" alt="" />
-                    <h4 className='text-lg font-medium'>Rohit Negi </h4>
+                    <h4 className='text-lg font-medium capitalize'>{captain.fullName.firstName + ' ' + captain.fullName.lastName} </h4>
                 </div>
                 <div >
                     <h4 className='text-xl font-semibold'>₹295.20</h4>

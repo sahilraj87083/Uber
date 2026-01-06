@@ -5,6 +5,9 @@ const LookingForDriver = (props) => {
                 onClick={(e) => {
                     // props.setConfirmRidePanel(false)
                     props.setVehicleFound(false)
+                    // If we want we can clear the input address field here 
+                    // props.setPickup('')
+                    // props.setDestination('')
 
                 }} >
                     <i className="ri-arrow-down-wide-line text-3xl text-gray-200"></i>
