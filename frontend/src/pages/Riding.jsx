@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useSocketContext } from "../contexts/SocketContext.jsx"
+import LiveTracking from "../components/LiveTracking.jsx"
 
 const Riding = () => {
 
@@ -19,8 +20,8 @@ const Riding = () => {
                 <i className="text-lg font-medium ri-home-5-line"></i>
             </Link>
             <div className='h-1/2'>
-                <img className = "h-full w-full object-cover" src="https://cdn.dribbble.com/userupload/22910073/file/original-f308c35778d329518ef2b88f866111ec.gif" alt="" />
-
+                {/* <img className = "h-full w-full object-cover" src="https://cdn.dribbble.com/userupload/22910073/file/original-f308c35778d329518ef2b88f866111ec.gif" alt="" /> */}
+                <LiveTracking/>
             </div>
 
             <div className='h-1/2 p-4'>
